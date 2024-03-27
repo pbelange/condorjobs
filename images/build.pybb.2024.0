@@ -1,0 +1,107 @@
+FROM gitlab-registry.cern.ch/linuxsupport/alma9-base
+
+LABEL author="philippe.belanger@cern.ch"
+
+RUN dnf -y install curl which bzip2 libgfortran git file man-db make \
+                   gcc gcc-gfortran python3-pip python3-devel wget vim locmap-release
+
+RUN dnf -y install locmap
+
+RUN locmap --enable kerberos
+RUN locmap --enable afs
+RUN locmap --enable eosclient
+RUN locmap --enable cvmfs
+RUN locmap --configure kerberos; exit 0
+RUN locmap --configure afs; exit 0
+RUN locmap --configure eosclient; exit 0
+RUN locmap --configure cvmfs; exit 0
+
+RUN dnf -y install eos-xrootd xrootd xrootd-client
+
+WORKDIR /usr/local/pybb
+
+RUN wget -O ./Miniforge3-latest.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+RUN bash Miniforge3-latest.sh -b -p /usr/local/pybb/miniforge3
+RUN rm Miniforge3-latest.sh
+
+RUN source /usr/local/pybb/miniforge3/bin/activate && conda init
+
+
+# Set paths in order not to need to source .../bin/activate
+#=========================================================
+ENV PATH="/usr/local/pybb/miniforge3/bin"
+ENV PATH="$PATH:/usr/local/pybb/miniforge3/condabin"
+ENV PATH="$PATH:/root/.local/bin:/root/bin/usr/sue/sbin"
+ENV PATH="$PATH:/usr/local/bin:/usr/sbin:/usr/bin:/sbin"
+ENV PATH="$PATH:/opt/puppetlabs/bin"
+
+ENV LD="/usr/local/pybb/miniforge3/bin/x86_64-conda-linux-gnu-ld"
+ENV LDFLAGS="-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl"
+ENV LDFLAGS="$LDFLAGS,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl"
+ENV LDFLAGS="$LDFLAGS,-rpath"
+ENV LDFLAGS="$LDFLAGS,/usr/local/pybb/miniforge3/lib -Wl"
+ENV LDFLAGS="$LDFLAGS,-rpath-link"
+ENV LDFLAGS="$LDFLAGS,/usr/local/pybb/miniforge3/lib -L/usr/local/pybb/miniforge3/lib"
+#==========================================================
+
+
+# Update conda and compilers
+#=======================================
+RUN conda update -n base -c conda-forge conda
+RUN conda install python=3.10
+RUN conda install pip=24.0
+
+RUN conda install gcc_linux-64=12.3.0 
+RUN conda install gxx_linux-64=12.3.0
+RUN conda install compilers=1.7.0 
+RUN conda install cmake=3.29.0
+#=======================================
+
+
+# FOR GPU Calculations
+#=======================================
+RUN conda install mamba -n base -c conda-forge
+RUN pip install cupy-cuda11x
+RUN mamba install cudatoolkit=11.8.0
+#=======================================
+
+# Install generic python packages
+#========================================
+RUN pip install PyYAML==6.0.1
+RUN pip install pyarrow==15.0.2
+RUN pip install pandas==2.2.1
+RUN pip install dask==2024.3.1
+RUN pip install bokeh==3.4.0
+RUN pip install matplotlib==3.8.3
+RUN pip install scipy==1.12.0
+RUN pip install ipympl==0.9.3
+RUN pip install ruamel.yaml==0.18.5
+RUN pip install rich==13.7.1
+#===========================================
+
+
+# Install main project
+#===========================================
+RUN pip install git+https://github.com/pbelange/BBStudies.git@docker-latest
+#===========================================
+
+
+# Install xsuite
+#===========================================
+RUN pip install git+https://github.com/pbelange/nafflib.git@v2.0.2
+RUN pip install git+https://github.com/pbelange/xtrack@docker-latest
+RUN pip install git+https://github.com/pbelange/xpart@docker-latest
+
+RUN pip install cpymad==1.15.0
+RUN pip install git+https://github.com/lhcopt/lhcmask.git@v1.3.3
+RUN pip install git+https://github.com/xsuite/xobjects@v0.3.1
+RUN pip install git+https://github.com/xsuite/xfields@v0.15.0
+RUN pip install xmask==0.3.8
+#===========================================
+
+
+
+# Clean cache to reduce memory footprint as much as possible
+#===========================================
+RUN conda clean --force-pkgs-dirs
+#===========================================

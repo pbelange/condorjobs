@@ -29,7 +29,9 @@ condor_ssh_to_job -auto-retry 3960224.0
 
 ```bash
 # Create the image
-sudo docker build -f build.pybb.2024.0 -t registry.cern.ch/bbstudies/pybb:2024.0 .
+sudo docker build -f images/build.pybb.2024.0 -t registry.cern.ch/bbstudies/pybb:2024.0 .
+# Or by overwriting the cache:
+docker build --no-cache -f images/build.pybb.2024.0 -t registry.cern.ch/bbstudies/pybb:2024.0 .
 
 # Push to the registry
 sudo docker login registry.cern.ch

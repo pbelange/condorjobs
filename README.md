@@ -14,7 +14,11 @@
 
 A list of useful commands:
 ```bash
+# List current status of jobs
 condor_q
+
+# To ssh to the job when it starts
+condor_ssh_to_job -auto-retry 3960224.0
 ```
 
 
@@ -39,11 +43,14 @@ sudo docker push registry.cern.ch/bbstudies/pybb:2024.0
 
 **To use the image in interactive mode:**
 ```bash
-# (sourcing from registry directly)
+# @local (sourcing from registry directly)
 sudo docker run -it -v /absolute/path/to/mount/:/usr/local/pybb/OUT registry.cern.ch/bbstudies/pybb:2024.0
 
-# (sourcing from cvmfs)
+# @lxplus (sourcing from cvmfs)
 singularity exec /cvmfs/unpacked.cern.ch/registry.cern.ch/bbstudies/pybb:2024.0 /bin/bash
+
+# @bologna
+apptainer exec -i docker://registry.cern.ch/bbstudies/pybb:2024.0 bash
 ```
 
 **To list images pulled on local machine:**

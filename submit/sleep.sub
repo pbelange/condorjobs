@@ -15,7 +15,7 @@ arguments           = 3600
 # +JobFlavour         = "microcentury"
 #-----------------------------------------------------------------------------------------
 +SingularityImage   = "/cvmfs/unpacked.cern.ch/registry.cern.ch/bbstudies/pybb:2024.0"
-requirements        = (TARGET.GPUs_Capability =?= 11.0 && TARGET.OpSysAndVer =?= "AlmaLinux9")
+requirements        = (Machine =!= LastRemoteHost && regexp("A100", TARGET.GPUs_DeviceName) && TARGET.OpSysAndVer =?= "AlmaLinux9")
 request_GPUs        = 1
 request_CPUs        = 1
 #-----------------------------------------------------------------------------------------

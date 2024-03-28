@@ -88,7 +88,7 @@ RUN pip install git+https://github.com/pbelange/BBStudies.git@docker-latest
 
 # Install xsuite
 #===========================================
-RUN pip install git+https://github.com/pbelange/nafflib.git@v2.0.2
+RUN pip install git+https://github.com/pbelange/nafflib.git@docker-latest
 RUN pip install git+https://github.com/pbelange/xtrack@docker-latest
 RUN pip install git+https://github.com/pbelange/xpart@docker-latest
 

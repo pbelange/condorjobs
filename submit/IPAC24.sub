@@ -1,0 +1,32 @@
+
+
+# USER DEFINED VARIABLES
+#=========================================================================================
+bunch_number  = 0000
+#=========================================================================================
+
+
+# HTCondor JOB SUBMISSION
+#=========================================================================================
+executable          = ./jobs/run_IPAC24.sh
+arguments           = _
++JobFlavour         = "microcentury"
+#-----------------------------------------------------------------------------------------
++SingularityImage   = "/cvmfs/unpacked.cern.ch/registry.cern.ch/bbstudies/pybb:2024.0"
+requirements        = (Machine =!= LastRemoteHost && regexp("A100", TARGET.GPUs_DeviceName) && TARGET.OpSysAndVer =?= "AlmaLinux9")
+request_GPUs        = 1
+request_CPUs        = 1
+#-----------------------------------------------------------------------------------------
+output              = log/log_BUNCH_$(bunch_number).out
+error               = log/log_BUNCH_$(bunch_number).err
+log                 = log/log_BUNCH_$(bunch_number).log
+#=========================================================================================
+
+
+# QUEUEING
+#=========================================================================================
+queue arguments from (
+  "collider______BUNCH_$(bunch_number).json"
+  "collider_BBCW_BUNCH_$(bunch_number).json"
+)
+#=========================================================================================

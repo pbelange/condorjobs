@@ -1,0 +1,122 @@
+#=========================================================================================
+#-- Tracking configuration
+#=========================================================================================
+tracking:
+  #---- CONTEXT --------------------------------------------------------------------------
+  context:
+    type: GPU
+    device_id:
+  #---------------------------------------------------------------------------------------
+
+
+  #---- COLLIDER -------------------------------------------------------------------------
+  collider:
+    path: colliders/collider_BBCW_BUNCH_0000.json
+    name: BBCW_BUNCH_0000
+    sequence: lhcb2
+    method: 6D
+  #-----------------------
+    # Shortcuts stored below
+    cycle_at: IP3
+    monitor_at:
+    - TCP_V
+    - TCP_H
+    - TCP_S
+  #---------------------------------------------------------------------------------------
+
+  #---- PARTICLES ------------------------------------------------------------------------
+  particles:
+    path: particles/HYPERSPHERE.parquet
+    name: HYPERSPHERE
+  #---------------------------------------------------------------------------------------
+
+
+  #---- TURN-BY-TURN TRACKING, PARTITIONNED BY CHUNK -------------------------------------
+  # Estimate turn-by-turn file size -> 1.2 GB per 1000 turns per 20k particles
+  num_turns: 20000
+  size_chunks: 1000
+  #-- Optional
+  num_chunks:
+  #---------------------------------------------------------------------------------------
+
+
+
+#=========================================================================================
+#-- Analysis configuration
+#=========================================================================================
+analysis:
+  path: tracking
+
+  #---- TURN-BY-TURN----------------------------------------------------------------------
+  turn_by_turn:
+    active: false
+  #---------------------------------------------------------------------------------------
+
+  # Chunking for both checkpoints and excursion:
+  num_turns: 10000
+  #---- CHECKPOINTS ----------------------------------------------------------------------
+  checkpoints:
+    active: true
+  #---------------------------------------------------------------------------------------
+
+  #---- EXCURSION ------------------------------------------------------------------------
+  excursion:
+    active: true
+  #---------------------------------------------------------------------------------------
+
+  #---- NAFF -----------------------------------------------------------------------------
+  naff:
+    active: false
+    num_turns:
+    num_harmonics:
+    window_order:
+    window_type:
+    #-- Optional
+    multiprocesses:
+  #---------------------------------------------------------------------------------------
+
+
+#=========================================================================================
+#-- Shortcuts for element names
+#=========================================================================================
+elements:
+  lhcb1:
+    IP3: ip3
+    TCP_V: tcp.d6l7.b1
+    TCP_H: tcp.c6l7.b1
+    TCP_S: tcp.b6l7.b1
+    IP1_in: mq.30l1.b1
+    IP1_out: mq.30r1.b1
+
+  lhcb2:
+    IP3: ip3
+    TCP_V: tcp.d6r7.b2
+    TCP_H: tcp.c6r7.b2
+    TCP_S: tcp.b6r7.b2
+LOADING COLLIDER
+Done loading line from dict.           
+Done loading line from dict.           
+Done loading line from dict.           
+Done loading line from dict.           
+INSTALLING MONITORS
+START TRACKING...
+Disable xdeps expressions
+Remove markers
+Remove inactive multipoles
+Merge consecutive multipoles
+Remove redundant apertures
+Remove zero length drifts
+Merge consecutive drifts
+Use simple bends
+Use simple quadrupoles
+Rebuild tracker data
+___  Tracking  ___   [ 0:00:00 remaining ]      ━━━━━━━━━━━━━━━━━━━ 100% 0:09:15
+                                                                                
+        CHUNK 17/19  [ 0:00:00 remaining ]      ━━━━━━━━━━━━━━━━━━━ 100% 0:00:25
+                                                                                
+        CHUNK 18/19  [ 0:00:00 remaining ]      ━━━━━━━━━━━━━━━━━━━ 100% 0:00:25
+                                                                                
+        CHUNK 19/19  [ 0:00:00 remaining ]      ━━━━━━━━━━━━━━━━━━━ 100% 0:00:25
+                                                                                
+RUNNING FILE: configs/tmp_config_J003_GPU_None.yaml
+========================================

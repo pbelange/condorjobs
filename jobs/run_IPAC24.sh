@@ -3,32 +3,31 @@
 
 # PARSE BASH INPUTS
 #=========================================================================================
-collider_name   =   $1
+collider_file=$1
 #=========================================================================================
-
 
 # IMPORT COLLIDERS AND CONFIGS
 #=========================================================================================
-EOS_DIR = root://eosuser.cern.ch//eos/user/p/phbelang/database/study_IPAC24
+EOS_DIR=root://eosuser.cern.ch//eos/user/p/phbelang/database/study_IPAC24
 #-----------------------------------------------------------------------------------------
 
 # Main Script
-xrdcp ${EOS_DIR}/run_tracking_htc.py ./main.py
+xrdcp ${EOS_DIR}/run_J003_J004_batch.py ./main.py
 
 # Copy Jobs:
 xrdcp -r ${EOS_DIR}/Jobs/ ./
 
 # Collider
 mkdir colliders
-xrdcp ${EOS_DIR}/colliders/collider_${collider_name}.json ./colliders/
+xrdcp ${EOS_DIR}/colliders/${collider_file} ./colliders/
 
 # Config
 mkdir configs
-xrdcp ${EOS_DIR}/configs/config_universal.json ./configs/
+xrdcp ${EOS_DIR}/configs/config_J003.yaml ./configs/
 
 # Particles
 mkdir particles
-xrdcp ${EOS_DIR}/particles/particles_hypersphere.parquet ./particles/
+xrdcp ${EOS_DIR}/particles/HYPERSPHERE.parquet ./particles/
 
 #=========================================================================================
 
@@ -45,12 +44,12 @@ xrdcp ${EOS_DIR}/particles/particles_hypersphere.parquet ./particles/
 
 # RUN SIMULATION
 #=========================================================================================
-python main.py --device GPU --collider ${collider_name}
+python main.py --device GPU --collider ${collider_file}
 #=========================================================================================
 
 # EXPORT RESULTS ("xrdcp -f" to overwrite)
 #=========================================================================================
-EXPORT_DIR = root://eosuser.cern.ch//eos/user/p/phbelang/database/study_IPAC24
+EXPORT_DIR=root://eosuser.cern.ch//eos/user/p/phbelang/database/study_IPAC24
 #-----------------------------------------------------------------------------------------
 xrdcp -rf ./tracking ${EXPORT_DIR}/
 #=========================================================================================

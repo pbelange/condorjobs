@@ -82,15 +82,15 @@ RUN pip install rich==13.7.1
 
 # Install main project
 #===========================================
-RUN pip install git+https://github.com/pbelange/BBStudies.git@docker-latest
+RUN pip install git+https://github.com/pbelange/BBStudies.git@pybb.2024.0-0
 #===========================================
 
 
 # Install xsuite
 #===========================================
-RUN pip install git+https://github.com/pbelange/nafflib.git@docker-latest
-RUN pip install git+https://github.com/pbelange/xtrack@docker-latest
-RUN pip install git+https://github.com/pbelange/xpart@docker-latest
+RUN pip install git+https://github.com/pbelange/nafflib.git@pybb.2024.0-0
+RUN pip install git+https://github.com/pbelange/xtrack@pybb.2024.0-0
+RUN pip install git+https://github.com/pbelange/xpart@pybb.2024.0-0
 
 RUN pip install cpymad==1.15.0
 RUN pip install git+https://github.com/lhcopt/lhcmask.git@v1.3.3

@@ -25,9 +25,22 @@ condor_ssh_to_job -auto-retry 3960224.0
 
 ## Docker
 
-**To build an image:**
+- **Your password to login in registry.cern.ch is found in the user profile in registry.cern.ch (called "CLI secret").**
+- **As a final step, need to add the registry address in the [cvmfs sourcing yaml](https://gitlab.cern.ch/unpacked/sync/-/blob/master/recipe.yaml)**
+
+**To build an image:** Go to `lumimod004`
 
 ```bash
+
+# Modify the image file 
+vim images/build.pybb.2024.0
+
+# IF docker doesn't run 
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp - docker
+
+
 # Create the image
 sudo docker build -f images/build.pybb.2024.0 -t registry.cern.ch/bbstudies/pybb:2024.0 .
 # Or by overwriting the cache:
@@ -38,8 +51,6 @@ sudo docker login registry.cern.ch
 sudo docker push registry.cern.ch/bbstudies/pybb:2024.0
 ```
 
-- **Your password to login in registry.cern.ch is found in the user profile in registry.cern.ch (called "CLI secret").**
-- **As a final step, need to add the registry address in the [cvmfs sourcing yaml](https://gitlab.cern.ch/unpacked/sync/-/blob/master/recipe.yaml)**
 
 
 

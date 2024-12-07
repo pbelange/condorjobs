@@ -59,11 +59,11 @@ sudo docker push registry.cern.ch/bbstudies/pybb:2024.0
 # @local (sourcing from registry directly)
 sudo docker run -it -v /absolute/path/to/mount/:/usr/local/pybb/OUT registry.cern.ch/bbstudies/pybb:2024.0
 
+# Pulling and sourcing
+apptainer exec --bind /afs:/afs docker://registry.cern.ch/bbstudies/pybb:2024.0 bash
+
 # @lxplus (sourcing from cvmfs)
 singularity exec /cvmfs/unpacked.cern.ch/registry.cern.ch/bbstudies/pybb:2024.0 /bin/bash
-
-# @bologna
-apptainer exec -i docker://registry.cern.ch/bbstudies/pybb:2024.0 bash
 ```
 
 **To list images pulled on local machine:**
